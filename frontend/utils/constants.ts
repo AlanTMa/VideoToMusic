@@ -157,4 +157,5 @@ export const ERROR_MESSAGES = {
 
 // Success messages
 export const SUCCESS_MESSAGES = {
-  UPLOAD_COMPLETE: 'Video uploaded su
+  UPLOAD_COMPLETE: 'Video uploaded successfully'
+} as const;

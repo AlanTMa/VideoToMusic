@@ -1,7 +1,7 @@
 // components/features/music/InstrumentSelector.tsx
 
 import React from 'react';
-import { Music, Piano, Guitar, Drums, Violin } from 'lucide-react';
+import { Music, Piano, Guitar, Drum, Music2  } from 'lucide-react';
 
 interface InstrumentSelectorProps {
   selectedInstruments: string[];
@@ -17,8 +17,8 @@ const InstrumentSelector: React.FC<InstrumentSelectorProps> = ({
   const instruments = [
     { id: 'piano', name: 'Piano', icon: Piano, color: 'bg-blue-500' },
     { id: 'guitar', name: 'Guitar', icon: Guitar, color: 'bg-green-500' },
-    { id: 'drums', name: 'Drums', icon: Drums, color: 'bg-red-500' },
-    { id: 'violin', name: 'Violin', icon: Violin, color: 'bg-purple-500' },
+    { id: 'drums', name: 'Drums', icon: Drum, color: 'bg-red-500' },
+    { id: 'violin', name: 'Violin', icon: Music2 , color: 'bg-purple-500' },
     { id: 'bass', name: 'Bass', icon: Music, color: 'bg-orange-500' },
     { id: 'synth', name: 'Synthesizer', icon: Music, color: 'bg-pink-500' },
     { id: 'flute', name: 'Flute', icon: Music, color: 'bg-cyan-500' },

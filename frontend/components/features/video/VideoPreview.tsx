@@ -2,8 +2,7 @@
 // components/features/video/VideoPreview.tsx
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, RotateCcw, Volume2, VolumeX } from 'lucide-react';
-
+import { Play, Pause, RotateCcw, Volume2, VolumeX, Video } from 'lucide-react';
 interface VideoPreviewProps {
   file: File | null;
   className?: string;

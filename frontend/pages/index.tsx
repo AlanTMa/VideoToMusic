@@ -11,8 +11,11 @@ import EmotionControls from '../components/features/emotion/EmotionControls';
 import MusicGenerator from '../components/features/music/MusicGenerator';
 import InstrumentSelector from '../components/features/music/InstrumentSelector';
 import ResultsDisplay from '../components/features/results/ResultsDisplay';
-import { useVideoUpload, useMusicGeneration, useEmotionControls } from '../hooks';
+import { useVideoUpload } from '../hooks/useVideoUpload';
+import { useMusicGeneration } from '../hooks/useMusicGeneration';
+import { useEmotionControls } from '../hooks/useEmotionControls';
 import { GenerationParameters, MusicGenerationRequest } from '../utils/types';
+
 
 const HomePage: NextPage = () => {
   // State management

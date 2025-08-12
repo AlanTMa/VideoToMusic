@@ -51,7 +51,14 @@ const DownloadControls: React.FC<DownloadControlsProps> = ({ result }) => {
     }
   };
 
-  const downloadOptions = [
+  const downloadOptions: Array<{
+    type: 'audio' | 'midi' | 'video';
+    title: string;
+    description: string;
+    icon: React.ComponentType<any>;
+    size: string;
+    color: string;
+  }> = [
     {
       type: 'audio' as const,
       title: 'Audio File (WAV)',
