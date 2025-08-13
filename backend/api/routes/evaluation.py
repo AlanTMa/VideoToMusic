@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from typing import Dict, Any, List, Optional
 import logging
 
-from ...dependencies import get_evaluator, get_session_manager
+from app.dependencies import get_evaluator, get_session_manager
 
 logger = logging.getLogger(__name__)
 router = APIRouter()

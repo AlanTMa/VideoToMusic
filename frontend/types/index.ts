@@ -1,3 +1,5 @@
+// utils/types.ts - Complete types file
+
 // Core types for MusicPairer application
 
 export interface EmotionParams {
@@ -21,6 +23,34 @@ export interface MusicalQuality {
   pitch_range?: number
 }
 
+export interface GenerationParameters {
+  tempo: number
+  key: string
+  genre: string
+  max_length: number
+  temperature: number
+  num_instruments: number
+  real_time: boolean
+}
+
+export interface MusicGenerationRequest {
+  video_file: File
+  text_description: string
+  emotion_params: EmotionParams
+  generation_params: GenerationParameters
+}
+
+export interface GenerationResult {
+  session_id: string
+  emotion_alignment: number
+  musical_quality: MusicalQuality
+  audio_url: string
+  midi_download_url: string
+  audio_download_url: string
+  processing_time?: number
+  video_duration?: number
+}
+
 export interface GenerationResults {
   session_id: string
   emotion_alignment: number
@@ -30,6 +60,40 @@ export interface GenerationResults {
   audio_download_url: string
   processing_time?: number
   video_duration?: number
+}
+
+export interface UseMusicGenerationResult {
+  generateMusic: (request: MusicGenerationRequest) => Promise<GenerationResult>
+  isGenerating: boolean
+  progress: number
+  error: string | null
+  result: GenerationResult | null
+  reset: () => void
+}
+
+// History types
+export interface HistoryItem {
+  id: string
+  timestamp: Date
+  videoFile: {
+    name: string
+    size: number
+    type: string
+  }
+  videoThumbnail?: string // base64 encoded thumbnail
+  emotionParams: EmotionParams
+  generationParams: GenerationParameters
+  selectedInstruments: string[]
+  textDescription: string
+  result: GenerationResults
+}
+
+export interface UseHistoryResult {
+  historyItems: HistoryItem[]
+  addToHistory: (item: Omit<HistoryItem, 'id' | 'timestamp'>) => void
+  removeFromHistory: (id: string) => void
+  clearHistory: () => void
+  getHistoryItem: (id: string) => HistoryItem | undefined
 }
 
 export interface ProcessingStage {

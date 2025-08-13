@@ -10,12 +10,13 @@ import json
 from pathlib import Path
 from typing import Optional, Dict, Any
 import logging
+import pretty_midi
 
-from ...dependencies import (
+from app.dependencies import (
     get_model_manager, get_session_manager, get_feature_extractor,
     get_midi_generator, get_evaluator
 )
-from ...config import get_settings
+from app.config import get_settings
 
 logger = logging.getLogger(__name__)
 router = APIRouter()

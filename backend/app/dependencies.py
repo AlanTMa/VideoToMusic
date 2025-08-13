@@ -5,12 +5,13 @@ from typing import Optional
 import torch
 import logging
 
-from .config import get_settings
-from ..models.silentvideosynth import SilentVideoSynth
-from ..utils.feature_extractor import VideoFeatureExtractor
-from ..utils.emotion_encoder import RussellCircumplexEncoder
-from ..utils.midi_generator import MIDIGenerator
-from ..utils.evaluator import SilentVideoSynthEvaluator
+from fastapi import HTTPException
+from .config  import get_settings
+from models.silentvideosynth import SilentVideoSynth
+from utils.feature_extractor import VideoFeatureExtractor
+from utils.emotion_encoder import RussellCircumplexEncoder
+from utils.midi_generator import MIDIGenerator
+from utils.evaluator import SilentVideoSynthEvaluator
 
 logger = logging.getLogger(__name__)
 

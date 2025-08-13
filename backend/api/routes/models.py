@@ -6,8 +6,8 @@ from typing import List, Dict, Any, Optional
 import json
 from pathlib import Path
 
-from ...dependencies import get_model_manager
-from ...config import get_settings
+from app.dependencies import get_model_manager
+from app.config import get_settings
 
 router = APIRouter()
 settings = get_settings()

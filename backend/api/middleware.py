@@ -2,7 +2,7 @@
 # backend/app/api/middleware.py
 
 from fastapi import Request, Response
-from fastapi.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 import time
 import logging
 import uuid
