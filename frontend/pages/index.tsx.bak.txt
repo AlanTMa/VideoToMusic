@@ -208,6 +208,7 @@ const HomePage: NextPage = () => {
       description: 'Create magic',
       completed: false
     },
+
     {
       id: 4,
       name: 'Results',
@@ -215,7 +216,7 @@ const HomePage: NextPage = () => {
       description: 'Your soundtrack',
       completed: completedSteps.generate
     },
-     {
+    {
       id: 5,
       name: 'History',
       icon: Clock,
@@ -279,18 +280,15 @@ const HomePage: NextPage = () => {
                   Features
                 </button>
                 <button className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition">
+                  Pricing
+                </button>
+                <button className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition">
                   Docs
                 </button>
                 <div className="w-px h-6 bg-gray-200 mx-2"></div>
-                <a
-                  href="https://buymeacoffee.com/yourusername"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2 px-4 py-2 text-sm bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-lg hover:shadow-lg hover:scale-105 transition-all"
-                >
-                  <span>☕</span>
-                  <span>Buy me a coffee</span>
-                </a>
+                <button className="px-4 py-2 text-sm bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg hover:shadow-lg hover:scale-105 transition">
+                  Sign In
+                </button>
               </nav>
             </div>
           </div>
@@ -329,7 +327,7 @@ const HomePage: NextPage = () => {
                         ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg'
                         : isAccessible
                           ? 'hover:bg-gray-50 text-gray-700'
-                          : 'text-gray-600 cursor-not-allowed opacity-70 bg-gray-50'
+                          : 'text-gray-400 cursor-not-allowed opacity-50'
                       }
                     `}
                   >
