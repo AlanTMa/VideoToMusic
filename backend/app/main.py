@@ -11,12 +11,13 @@ import asyncio
 import logging
 import os
 from pathlib import Path
-
+from fastapi.middleware.cors import CORSMiddleware
 from .config import get_settings
 from .dependencies import get_model_manager, get_session_manager
 from api.routes import generation, training, evaluation, models
 from api.middleware import RequestLoggingMiddleware, ErrorHandlingMiddleware
-
+from api.routes import generation, evaluation, models, training
+from api.routes import analysis
 
 # Configure logging
 logging.basicConfig(
@@ -111,7 +112,7 @@ app = FastAPI(
 # Add middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS,
+    allow_origins=["http://localhost:3000", "http://localhost:3001"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -168,6 +169,8 @@ async def root():
         ]
     }
 
+app.include_router(training.router, prefix="/api/training", tags=["training"])
+app.include_router(analysis.router, prefix="/api/analysis", tags=["analysis"])
 
 @app.get("/api/health")
 async def health_check():

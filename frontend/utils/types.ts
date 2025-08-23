@@ -291,6 +291,54 @@ export interface UsageStats {
   userRetention: number
 }
 
+
+export interface EmotionCoordinates {
+  valence: number;  // -1 to 1
+  arousal: number;  // 0 to 1
+}
+
+
+
+export interface EmotionTimeline {
+  emotions: EmotionPoint[];
+  average_valence: number;
+  average_arousal: number;
+  dominant_emotion: string;
+  video_duration: number;
+  analysis_interval: number;
+}
+
+export interface EmotionControlsProps {
+  emotion: EmotionCoordinates;
+  onChange: (emotion: EmotionCoordinates) => void;
+  disabled?: boolean;
+}
+
+export interface MusicGenerationRequest {
+  video_file: File;
+  text_description: string;
+  emotion_params: EmotionCoordinates;
+  emotion_timeline?: EmotionTimeline | null;  // Add this line
+  generation_params: GenerationParameters;
+}
+
+export interface EmotionPoint {
+  timestamp: number;
+  valence: number;
+  arousal: number;
+  dominant_emotion: string;
+  confidence: number;
+  face_detected: boolean;
+  scene_mood: string | null;
+  color_energy: number;
+}
+export interface UseEmotionControlsResult {
+  emotion: EmotionCoordinates;
+  setEmotion: (emotion: EmotionCoordinates) => void;
+  updateValence: (valence: number) => void;
+  updateArousal: (arousal: number) => void;
+  reset: () => void;
+}
 // Export utility type helpers
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 export type RequiredNonNull<T> = { [P in keyof T]-?: NonNullable<T[P]> }

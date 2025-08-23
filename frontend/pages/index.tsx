@@ -14,6 +14,8 @@ import HistoryDisplay from '../components/features/history/HistoryDisplay';
 import { useVideoUpload } from '../hooks/useVideoUpload';
 import { useMusicGeneration } from '../hooks/useMusicGeneration';
 import { useEmotionControls } from '../hooks/useEmotionControls';
+import { useEmotionAnalysis } from '../hooks/useEmotionAnalysis';
+import EmotionTimeline from '../components/features/emotion/EmotionTimeline';
 import { useHistory } from '../hooks/useHistory';
 import { GenerationParameters, MusicGenerationRequest, HistoryItem } from '../utils/types';
 import { downloadFile, generateShareableData } from '../utils/helpers';
@@ -56,6 +58,14 @@ const HomePage: NextPage = () => {
     generate: false,
   });
 
+  const {
+  analyzeVideo,
+  emotionTimeline,
+  isAnalyzing,
+  analysisProgress,
+  error: emotionError
+} = useEmotionAnalysis();
+
   // Custom hooks
   const { emotion, setEmotion } = useEmotionControls();
   const { historyItems, addToHistory, removeFromHistory, clearHistory } = useHistory();
@@ -73,12 +83,26 @@ const HomePage: NextPage = () => {
     });
   }, [videoFile, emotion, selectedInstruments, textDescription, result]);
 
-  // Handlers
-  const handleVideoSelect = (file: File) => {
+  // Update the handleVideoSelect function:
+  const handleVideoSelect = async (file: File) => {
     setVideoFile(file);
     reset();
     toast.success('Video uploaded successfully! 🎬');
-    // Auto-advance to next tab
+
+    // Auto-analyze emotions when video is uploaded
+    try {
+      toast.promise(
+        analyzeVideo(file, 5), // Analyze every 5 seconds
+        {
+          loading: 'Analyzing video emotions...',
+          success: 'Emotion analysis complete!',
+          error: 'Failed to analyze emotions'
+        }
+      );
+    } catch (error) {
+      console.error('Emotion analysis failed:', error);
+    }
+
     setTimeout(() => setActiveTab(1), 500);
   };
 
@@ -93,31 +117,31 @@ const HomePage: NextPage = () => {
   };
 
   const handleGenerate = async () => {
-    if (!videoFile) {
-      toast.error('Please upload a video first');
-      setActiveTab(0);
-      return;
-    }
+  if (!videoFile) {
+    toast.error('Please upload a video first');
+    setActiveTab(0);
+    return;
+  }
 
-    const request: MusicGenerationRequest = {
-      video_file: videoFile,
-      text_description: textDescription,
-      emotion_params: emotion,
-      generation_params: {
-        ...generationParams,
-        num_instruments: selectedInstruments.length,
-      },
-    };
-
-    try {
-      await generateMusic(request);
-      toast.success('Music generated successfully! 🎵');
-      // Auto-advance to results tab
-      setTimeout(() => setActiveTab(5), 500);
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to generate music');
-    }
+  const request: MusicGenerationRequest = {
+    video_file: videoFile,
+    text_description: textDescription,
+    emotion_params: emotion,
+    emotion_timeline: emotionTimeline, // Add this
+    generation_params: {
+      ...generationParams,
+      num_instruments: selectedInstruments.length,
+    },
   };
+
+  try {
+    await generateMusic(request);
+    toast.success('Music generated successfully! 🎵');
+    setTimeout(() => setActiveTab(5), 500);
+  } catch (error: any) {
+    toast.error(error.message || 'Failed to generate music');
+  }
+};
 
   // History handlers
   const handlePlayMusic = (item: HistoryItem) => {
@@ -429,6 +453,16 @@ const HomePage: NextPage = () => {
                     emotion={emotion}
                     onChange={setEmotion}
                     disabled={isGenerating}
+                    emotionTimeline={emotionTimeline}
+                    isAnalyzing={isAnalyzing}
+                    analysisProgress={analysisProgress}
+                    videoFile={videoFile}
+                    onAnalyzeVideo={() => analyzeVideo(videoFile!, 5)}
+                    currentVideoTime={0} // You can track this from VideoPreview
+                    onTimeSelect={(timestamp) => {
+                      // Optionally seek video to this timestamp
+                      console.log('Selected timestamp:', timestamp);
+                    }}
                   />
 
                   <div className="flex justify-between">

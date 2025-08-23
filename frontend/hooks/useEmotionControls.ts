@@ -6,34 +6,24 @@ import { UseEmotionControlsResult, EmotionCoordinates } from '../utils/types';
 
 const DEFAULT_EMOTION: EmotionCoordinates = { valence: 0.5, arousal: 0.5 };
 
-export const useEmotionControls = (initialEmotion?: EmotionCoordinates): UseEmotionControlsResult => {
-  const [emotion, setEmotionState] = useState<EmotionCoordinates>(initialEmotion || DEFAULT_EMOTION);
+export const useEmotionControls = (): UseEmotionControlsResult => {
+  const [emotion, setEmotion] = useState<EmotionCoordinates>({
+    valence: 0.5,
+    arousal: 0.5
+  });
 
-  const setEmotion = useCallback((newEmotion: EmotionCoordinates) => {
-    setEmotionState({
-      valence: Math.max(0, Math.min(1, newEmotion.valence)),
-      arousal: Math.max(0, Math.min(1, newEmotion.arousal)),
-    });
+  const updateValence = useCallback((valence: number) => {
+    setEmotion((prev: EmotionCoordinates) => ({ ...prev, valence }));
   }, []);
 
-  const setValence = useCallback((valence: number) => {
-    setEmotionState(prev => ({
-      ...prev,
-      valence: Math.max(0, Math.min(1, valence)),
-    }));
-  }, []);
-
-  const setArousal = useCallback((arousal: number) => {
-    setEmotionState(prev => ({
-      ...prev,
-      arousal: Math.max(0, Math.min(1, arousal)),
-    }));
+  const updateArousal = useCallback((arousal: number) => {
+    setEmotion((prev: EmotionCoordinates) => ({ ...prev, arousal }));
   }, []);
 
   const reset = useCallback(() => {
-    setEmotionState(DEFAULT_EMOTION);
+    setEmotion({ valence: 0.5, arousal: 0.5 });
   }, []);
 
-  return { emotion, setEmotion, setValence, setArousal, reset };
+  return { emotion, setEmotion, updateValence, updateArousal, reset };
 };
 
